@@ -1,68 +1,30 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" ng-app="NarrowItDownApp">
+  <head>
+    <title>Narrow Down Your Menu Choice</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/styles.css">
+    <script src="angular.min.js"></script>
+    <script src="app.js"></script>
+  </head>
+<body >
+   <div class="container" ng-controller="NarrowItDownController as nitdown">
+    <h1>Narrow Down Your Chinese Menu Choice</h1>
 
-<head>
-  <title>Module 3 - Shopping List Check Off</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="styles/bootstrap.min.css">
-  <style>
-    .emptyMessage {
-      font-weight: bold;
-      color: red;
-      font-size: 1.2em;
-    }
+    <div class="form-group">
+      <input type="text" placeholder="search term" ng-model="nitdown.searchTerm" class="form-control">
+    </div>
+    <div class="form-group narrow-button">
+      <button class="btn btn-primary" ng-click="nitdown.getMatchedMenuItems();">Narrow It Down For Me!</button>
+    </div>
 
-    li {
-      margin-bottom: 7px;
-      font-size: 1.2em;
-    }
-
-    li>button {
-      margin-left: 6px;
-    }
-
-    button>span {
-      color: green;
-    }
-  </style>
-
-  <script src="angular.min.js"></script>
-  <script src="app.js"></script>
-</head>
-
-<body ng-app="ShoppingListCheckOff">
-  <div class="container">
-    <h1>Shopping List Check Off</h1>
-
-    <div class="row">
-
-      <!-- To Buy List -->
-      <div class="col-md-6" ng-controller="ToBuyController as tobuy">
-        <h2>To Buy:</h2>
-        <ul>
-          <li ng-repeat="item in tobuy.items">
-            Buy {{ item.quantity }} {{ item.name }}
-            <button ng-click="tobuy.buyItem($index)" class="btn btn-default">
-              <span class="glyphicon glyphicon-ok"></span>Bought
-            </button>
-          </li>
-        </ul>
-        <div ng-if="tobuy.items.length == 0" class="emptyMessage">Everything is bought!</div>
-      </div>
-
-      <!-- Already Bought List -->
-      <div class="col-md-6" ng-controller="AlreadyBoughtController as bought">
-        <h2>Already Bought:</h2>
-        <ul>
-          <li ng-repeat="item in bought.items">
-            Bought {{ item.quantity }} {{ item.name }}
-          </li>
-        </ul>
-        <div ng-if="bought.items.length == 0" class="emptyMessage">Nothing bought yet.</div>
-      </div>
+    <!-- found-items should be implemented as a component -->
+    <div ng-if="nitdown.found.length == 0">Nothing found.</div>
+    <div ng-if="nitdown.found.length != 0">
+      <found-items list="nitdown.found" on-remove="nitdown.removeItem(index)"></found-items>
     </div>
   </div>
 
 </body>
-
 </html>
